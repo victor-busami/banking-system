@@ -14,6 +14,8 @@ import java.util.List;
  * 10. Error handling: `try/catch (SQLException)` in CRUD methods; errors logged to `System.err`.
  */
 public class DBHelper {
+    // 1. Data types & variables: DB_URL (database path), JDBC types used in methods below.
+    // 4. Encapsulation: DB_URL is private; getConnection() is private to hide driver details.
     private static final String DB_URL = "jdbc:sqlite:bank.db"; // uses local file bank.db
 
     public DBHelper() {
@@ -22,6 +24,7 @@ public class DBHelper {
 
     // Initialize DB and tables
     public void initDB() {
+        // 8. Database Support: create tables if missing using JDBC Statement.
         try (Connection conn = getConnection(); Statement stmt = conn.createStatement()) {
             // Customers table: id, name, pin
             stmt.execute("CREATE TABLE IF NOT EXISTS customers ("
@@ -45,6 +48,7 @@ public class DBHelper {
 
     // Get a DB connection
     private Connection getConnection() throws SQLException {
+        // 8. Database Support: load JDBC driver (if present) and create a Connection to DB_URL.
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
@@ -55,6 +59,8 @@ public class DBHelper {
 
     // Create a customer and return generated id
     public int createCustomer(String name, int pin) {
+        // 2. Methods: CRUD method that inserts into `customers` and returns generated id.
+        // 10. Error handling: SQLException caught and logged.
         String sql = "INSERT INTO customers(name, pin) VALUES(?,?)";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, name);
@@ -71,6 +77,8 @@ public class DBHelper {
 
     // Create an account for an existing customer
     public int createAccount(int customerId, String type, double initialBalance) {
+        // 2. Methods: inserts account row; returns generated id.
+        // 8. Database Support: uses PreparedStatement to avoid SQL injection.
         String sql = "INSERT INTO accounts(customer_id, type, balance) VALUES(?,?,?)";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, customerId);
@@ -88,6 +96,7 @@ public class DBHelper {
 
     // Retrieve Account by id
     public Account getAccount(int accountId) {
+        // 2. Methods: reads account row and maps to `Account` object.
         String sql = "SELECT id, customer_id, type, balance FROM accounts WHERE id = ?";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, accountId);
@@ -135,6 +144,8 @@ public class DBHelper {
 
     // Update balance for an account
     public boolean updateAccountBalance(int accountId, double newBalance) {
+        // 2. Methods: updates account balance; returns true if one row updated.
+        // 10. Error handling: SQLException caught and logged.
         String sql = "UPDATE accounts SET balance = ? WHERE id = ?";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setDouble(1, newBalance);
@@ -149,6 +160,7 @@ public class DBHelper {
 
     // List all accounts (small MVP so no pagination)
     public List<Account> listAccounts() {
+        // 2. Methods: returns a list of Account objects from the DB.
         List<Account> list = new ArrayList<>();
         String sql = "SELECT id, customer_id, type, balance FROM accounts";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
