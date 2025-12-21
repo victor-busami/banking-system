@@ -45,3 +45,16 @@ Files of interest
 - Source: [Account.java](Account.java)
 - Source: [DBHelper.java](DBHelper.java)
 - Source (main): [BankApp.java](BankApp.java)
+
+## Concept mapping (where each concept is used)
+
+- **1. Data types & variables:** `Account.java`, `Person.java`, `DBHelper.java`, `BankApp.java` — fields use `int`, `double`, `String`, and `Scanner`.
+- **2. Methods:** All source files contain methods; see constructors, getters/setters, CRUD methods, and CLI handlers in `BankApp.java`.
+- **3. Classes:** `Person` (abstract) and `Customer` (concrete) in `Person.java`; `Account` in `Account.java`; `DBHelper` in `DBHelper.java`.
+- **4. Encapsulation:** Private fields with public getters/setters in `Account.java` and `Person.java`; `DBHelper` hides connection details.
+- **5. Inheritance:** `Customer` extends `Person` (`Person.java`).
+- **6. Polymorphism:** `Customer` overrides `getRole()` and `toString()` (`Person.java`).
+- **7. Abstraction:** `Person` is an abstract class with abstract method `getRole()` (`Person.java`).
+- **8. Database Support:** All DB interactions are in `DBHelper.java` (JDBC, SQL create/read/update), used by `BankApp.java`.
+- **9. Input validation:** `BankApp.java` validates CLI inputs (`readInt`/`readDouble`, empty name checks) and `Account` methods validate amounts.
+- **10. Error handling:** `DBHelper.java` uses `try/catch (SQLException)` and logs errors; `BankApp.java` handles parsing and `IllegalArgumentException` thrown by `Account`.

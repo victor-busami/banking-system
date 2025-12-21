@@ -5,6 +5,14 @@ import java.util.Scanner;
 /**
  * Minimalistic command-line Bank ATM application (MVP).
  * Demonstrates Java OOP principles and uses SQLite via DBHelper.
+ *
+ * Clear concept mapping (this file):
+ * 1. Data types & variables: `scanner` (Scanner), `db` (DBHelper), primitives used for IDs, amounts.
+ * 2. Methods: `main`, menu handlers (`handleCreateAccount`, `handleLogin`, etc.), input helpers `readInt`/`readDouble`.
+ * 4. Encapsulation: uses public APIs of `Account` and `DBHelper` rather than accessing internals.
+ * 8. Database Support: interacts with `DBHelper` to persist and read data (createCustomer, createAccount, updateAccountBalance).
+ * 9. Input validation: checks for empty names, non-negative deposits, PIN validation, and repeated parsing loops in `readInt`/`readDouble`.
+ * 10. Error handling: catches `NumberFormatException` in input methods and `IllegalArgumentException` around `deposit`/`withdraw` operations.
  */
 public class BankApp {
     private static final Scanner scanner = new Scanner(System.in);

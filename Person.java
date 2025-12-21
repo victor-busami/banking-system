@@ -3,6 +3,15 @@ import java.util.Objects;
 /**
  * Abstract Person class demonstrating abstraction and encapsulation.
  * Contains a concrete subclass Customer in the same file to keep total files to four.
+ *
+ * Clear concept mapping (this file):
+ * 1. Data types & variables: `id` (int), `name` (String), `pin` in `Customer` (int).
+ * 2. Methods: constructor, getters/setters, abstract `getRole`, overridden `toString`.
+ * 3. Classes: `Person` (abstract) and `Customer` (concrete class).
+ * 4. Encapsulation: private fields with public accessors (`getId`, `getName`, etc.).
+ * 5. Inheritance: `Customer` extends `Person`.
+ * 6. Polymorphism: `Customer` overrides `getRole()` and `toString()` (runtime polymorphism).
+ * 7. Abstraction: `Person` is abstract and declares abstract `getRole()` which subclasses implement.
  */
 public abstract class Person {
     private int id;

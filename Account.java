@@ -1,5 +1,12 @@
 /**
  * Account model demonstrating encapsulation and methods (deposit/withdraw).
+ *
+ * Clear concept mapping (this file):
+ * 1. Data types & variables: fields `id` (int), `customerId` (int), `type` (String), `balance` (double).
+ * 2. Methods: constructor, getters/setters, `deposit`, `withdraw`, `toString`.
+ * 4. Encapsulation: fields are `private` with public getters/setters.
+ * 9. Input validation: `deposit` and `withdraw` check amounts (amount > 0, sufficient balance).
+ * 10. Error handling: invalid operations throw `IllegalArgumentException` to signal errors to callers.
  */
 public class Account {
     private int id;

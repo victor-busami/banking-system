@@ -5,6 +5,13 @@ import java.util.List;
 /**
  * DBHelper handles SQLite connection and CRUD operations.
  * Creates two tables: customers and accounts.
+ *
+ * Clear concept mapping (this file):
+ * 1. Data types & variables: `DB_URL` (String), local variables for SQL fields and results.
+ * 2. Methods: `initDB`, `getConnection`, `createCustomer`, `createAccount`, `getAccount`, etc.
+ * 4. Encapsulation: `DB_URL` is `private static final` and `getConnection()` is `private`.
+ * 8. Database Support: uses JDBC (`Connection`, `PreparedStatement`, `ResultSet`) and SQL statements to create/query/update tables.
+ * 10. Error handling: `try/catch (SQLException)` in CRUD methods; errors logged to `System.err`.
  */
 public class DBHelper {
     private static final String DB_URL = "jdbc:sqlite:bank.db"; // uses local file bank.db
