@@ -109,6 +109,23 @@ public class DBHelper {
         return null;
     }
 
+    // Lookup account by customer name + pin (returns first matching account)
+    public Account getAccountByCustomerNameAndPin(String name, int pin) {
+        String sql = "SELECT a.id, a.customer_id, a.type, a.balance FROM accounts a JOIN customers c ON a.customer_id = c.id WHERE c.name = ? AND c.pin = ? LIMIT 1";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, name);
+            ps.setInt(2, pin);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Account(rs.getInt("id"), rs.getInt("customer_id"), rs.getString("type"), rs.getDouble("balance"));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching account by name+PIN: " + e.getMessage());
+        }
+        return null;
+    }
+
     // Update balance for an account
     public boolean updateAccountBalance(int accountId, double newBalance) {
         String sql = "UPDATE accounts SET balance = ? WHERE id = ?";

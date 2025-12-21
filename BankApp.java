@@ -84,27 +84,25 @@ public class BankApp {
         System.out.printf("Account created successfully. Account ID: %d\n", accountId);
     }
 
-    // Login by account id + PIN
+    // Login by customer name + PIN
     private static void handleLogin() {
         System.out.println("-- Login --");
-        int accountId = readInt("Enter account ID: ");
-        Integer storedPin = db.getCustomerPinByAccount(accountId);
-        if (storedPin == null) {
-            System.out.println("Account not found.");
-            return;
-        }
-        int pin = readInt("Enter PIN: ");
-        if (!storedPin.equals(pin)) {
-            System.out.println("Authentication failed.");
+        System.out.print("Enter customer name: ");
+        String name = scanner.nextLine().trim();
+        if (name.isEmpty()) {
+            System.out.println("Name cannot be empty.");
             return;
         }
 
-        Account account = db.getAccount(accountId);
+        int pin = readInt("Enter PIN: ");
+
+        Account account = db.getAccountByCustomerNameAndPin(name, pin);
         if (account == null) {
-            System.out.println("Account not found after login.");
+            System.out.println("Authentication failed or no account found for that user.");
             return;
         }
-        System.out.printf("Welcome, account #%d!\n", account.getId());
+
+        System.out.printf("Welcome, %s! (Account #%d)\n", name, account.getId());
         accountSession(account);
     }
 

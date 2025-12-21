@@ -14,6 +14,10 @@ Steps (Windows)
 
 2. Compile all Java sources from the project folder:
 
+javac \*.java
+
+ORRRRRR
+
 ```bat
 cd /d d:\projects\banking-system
 javac -cp ".;sqlite-jdbc.jar" *.java
