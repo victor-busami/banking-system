@@ -4,21 +4,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-/**
- * Minimal Swing GUI for the Bank ATM MVP.
- * - Tabs: Create account, Login (deposit/withdraw), List all accounts
- * - Uses existing `DBHelper` and `Account` classes in this project
- */
+
+//  minimal Swing GUI for the Bank ATM MVP.
+//  tabs: Create account, Login (deposit/withdraw), List all accounts
+//  uses existing `DBHelper` and `Account` classes in this project
+ 
 public class BankGUI extends JFrame {
     private final DBHelper db = new DBHelper();
 
-    // Create tab components
+    //create tab components
     private final JTextField createName = new JTextField(15);
     private final JTextField createPin = new JTextField(6);
     private final JTextField createType = new JTextField("checking", 10);
     private final JTextField createInitial = new JTextField("0.0", 10);
 
-    // Login tab components
+    //login tab components
     private final JTextField loginName = new JTextField(15);
     private final JTextField loginPin = new JTextField(6);
     private final JLabel loggedAccountLabel = new JLabel("No account");
@@ -26,7 +26,7 @@ public class BankGUI extends JFrame {
     private final JTextField depositAmount = new JTextField(8);
     private final JTextField withdrawAmount = new JTextField(8);
 
-    // (no admin/list tab in minimalist GUI)
+
 
     public BankGUI() {
         super("Minimal Bank ATM - GUI");
@@ -109,7 +109,7 @@ public class BankGUI extends JFrame {
         return p;
     }
 
-    // Create account action
+    //create account action
     private void onCreateAccount() {
         String name = createName.getText().trim();
         String pinText = createPin.getText().trim();
@@ -127,11 +127,11 @@ public class BankGUI extends JFrame {
         int accountId = db.createAccount(customerId, type.isEmpty() ? "checking" : type, initial);
         if (accountId == -1) { JOptionPane.showMessageDialog(this, "Failed to create account"); return; }
         JOptionPane.showMessageDialog(this, "Account created. ID: " + accountId);
-        // clear fields
+        //clear fields
         createName.setText(""); createPin.setText(""); createInitial.setText("0.0");
     }
 
-    // Login action
+    //login action
     private void onLogin() {
         String name = loginName.getText().trim();
         String pinText = loginPin.getText().trim();
@@ -142,7 +142,7 @@ public class BankGUI extends JFrame {
         if (acc == null) { JOptionPane.showMessageDialog(this, "Authentication failed or no account found"); return; }
         currentAccount = acc;
         updateLoggedAccountDisplay();
-        // Minimal GUI: show balance popup after login
+        //minimal gui(show balance popup after login)
         JOptionPane.showMessageDialog(this, String.format("Account #%d balance: %.2f", currentAccount.getId(), currentAccount.getBalance()));
     }
 
@@ -182,7 +182,7 @@ public class BankGUI extends JFrame {
     }
 
     private void refreshList() {
-        // removed in minimalist GUI
+        //removed in minimalist gui
     }
 
     public static void main(String[] args) {

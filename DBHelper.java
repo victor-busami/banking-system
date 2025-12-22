@@ -2,38 +2,27 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * DBHelper handles SQLite connection and CRUD operations.
- * Creates two tables: customers and accounts.
- *
- * Clear concept mapping (this file):
- * 1. Data types & variables: `DB_URL` (String), local variables for SQL fields and results.
- * 2. Methods: `initDB`, `getConnection`, `createCustomer`, `createAccount`, `getAccount`, etc.
- * 4. Encapsulation: `DB_URL` is `private static final` and `getConnection()` is `private`.
- * 8. Database Support: uses JDBC (`Connection`, `PreparedStatement`, `ResultSet`) and SQL statements to create/query/update tables.
- * 10. Error handling: `try/catch (SQLException)` in CRUD methods; errors logged to `System.err`.
- */
 public class DBHelper {
-    // 1. Data types & variables: DB_URL (database path), JDBC types used in methods below.
-    // 4. Encapsulation: DB_URL is private; getConnection() is private to hide driver details.
-    private static final String DB_URL = "jdbc:sqlite:bank.db"; // uses local file bank.db
+    //variable(db_url)
+    //encapsulation(keeping DB connection details private)
+    private static final String DB_URL = "jdbc:sqlite:bank.db"; 
 
     public DBHelper() {
         initDB();
     }
 
-    // Initialize DB and tables
+    
     public void initDB() {
-        // 8. Database Support: create tables if missing using JDBC Statement.
+        
         try (Connection conn = getConnection(); Statement stmt = conn.createStatement()) {
-            // Customers table: id, name, pin
+            // Customers table(id, name, pin)
             stmt.execute("CREATE TABLE IF NOT EXISTS customers ("
                     + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "name TEXT NOT NULL,"
                     + "pin INTEGER NOT NULL"
                     + ");");
 
-            // Accounts table: id, customer_id, type, balance
+            // Accounts table(id, customer_id, type, balance)
             stmt.execute("CREATE TABLE IF NOT EXISTS accounts ("
                     + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "customer_id INTEGER NOT NULL,"
@@ -46,21 +35,21 @@ public class DBHelper {
         }
     }
 
-    // Get a DB connection
+    
     private Connection getConnection() throws SQLException {
-        // 8. Database Support: load JDBC driver (if present) and create a Connection to DB_URL.
+        
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
-            // Driver not present on classpath — runtime must include sqlite-jdbc jar
+            
         }
         return DriverManager.getConnection(DB_URL);
     }
 
-    // Create a customer and return generated id
+    
     public int createCustomer(String name, int pin) {
-        // 2. Methods: CRUD method that inserts into `customers` and returns generated id.
-        // 10. Error handling: SQLException caught and logged.
+        //method(inserts customer row and returns generated id)
+        //error handling(sql exception caught and logged)
         String sql = "INSERT INTO customers(name, pin) VALUES(?,?)";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, name);
@@ -75,10 +64,9 @@ public class DBHelper {
         return -1;
     }
 
-    // Create an account for an existing customer
+    // method to create account
     public int createAccount(int customerId, String type, double initialBalance) {
-        // 2. Methods: inserts account row; returns generated id.
-        // 8. Database Support: uses PreparedStatement to avoid SQL injection.
+        
         String sql = "INSERT INTO accounts(customer_id, type, balance) VALUES(?,?,?)";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, customerId);
@@ -88,15 +76,17 @@ public class DBHelper {
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) return rs.getInt(1);
             }
+
+         //error handling(sql exception caught and logged)
         } catch (SQLException e) {
             System.err.println("Error creating account: " + e.getMessage());
         }
         return -1;
     }
 
-    // Retrieve Account by id
+    
     public Account getAccount(int accountId) {
-        // 2. Methods: reads account row and maps to `Account` object.
+        //method(retrieves account by id and returns Account object)
         String sql = "SELECT id, customer_id, type, balance FROM accounts WHERE id = ?";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, accountId);
@@ -111,7 +101,7 @@ public class DBHelper {
         return null;
     }
 
-    // Get customer's PIN given an account id (used for simple auth)
+    
     public Integer getCustomerPinByAccount(int accountId) {
         String sql = "SELECT c.pin FROM customers c JOIN accounts a ON c.id = a.customer_id WHERE a.id = ?";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -125,7 +115,7 @@ public class DBHelper {
         return null;
     }
 
-    // Lookup account by customer name + pin (returns first matching account)
+    //method to get account by customer name and PIN
     public Account getAccountByCustomerNameAndPin(String name, int pin) {
         String sql = "SELECT a.id, a.customer_id, a.type, a.balance FROM accounts a JOIN customers c ON a.customer_id = c.id WHERE c.name = ? AND c.pin = ? LIMIT 1";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -142,16 +132,17 @@ public class DBHelper {
         return null;
     }
 
-    // Update balance for an account
+    //method to update account balance
     public boolean updateAccountBalance(int accountId, double newBalance) {
-        // 2. Methods: updates account balance; returns true if one row updated.
-        // 10. Error handling: SQLException caught and logged.
+        
         String sql = "UPDATE accounts SET balance = ? WHERE id = ?";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setDouble(1, newBalance);
             ps.setInt(2, accountId);
             int updated = ps.executeUpdate();
             return updated == 1;
+
+        //error handling(sql exception caught and logged)
         } catch (SQLException e) {
             System.err.println("Error updating balance: " + e.getMessage());
         }
@@ -160,7 +151,7 @@ public class DBHelper {
 
     // List all accounts (small MVP so no pagination)
     public List<Account> listAccounts() {
-        // 2. Methods: returns a list of Account objects from the DB.
+        //method(returns a list of Account objects from the DB)
         List<Account> list = new ArrayList<>();
         String sql = "SELECT id, customer_id, type, balance FROM accounts";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {

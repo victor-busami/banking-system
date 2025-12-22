@@ -1,16 +1,6 @@
-/**
- * Account model demonstrating encapsulation and methods (deposit/withdraw).
- *
- * Clear concept mapping (this file):
- * 1. Data types & variables: fields `id` (int), `customerId` (int), `type` (String), `balance` (double).
- * 2. Methods: constructor, getters/setters, `deposit`, `withdraw`, `toString`.
- * 4. Encapsulation: fields are `private` with public getters/setters.
- * 9. Input validation: `deposit` and `withdraw` check amounts (amount > 0, sufficient balance).
- * 10. Error handling: invalid operations throw `IllegalArgumentException` to signal errors to callers.
- */
 public class Account {
-    // 1. Data types & variables: fields below (`id`, `customerId`, `type`, `balance`).
-    // 4. Encapsulation: fields are private; use getters/setters to access/modify.
+    // data types & variables(id, customerId, type, balance)
+    // encapsulation(use of private fields)
     private int id;
     private int customerId;
     private String type;
@@ -23,7 +13,7 @@ public class Account {
         this.balance = balance;
     }
 
-    // Encapsulated getters/setters
+    //encapsulated getters/setters
     public int getId() {
         return id;
     }
@@ -56,16 +46,16 @@ public class Account {
         this.balance = balance;
     }
 
-    // Business methods with validation
-    // 9. Input validation: ensure deposit amount is positive.
-    // 10. Error handling: throws IllegalArgumentException for invalid deposits.
+ 
+    //input validation(only positive amounts for deposits)
+    //error handling(IllegalArgumentException for invalid deposits)
     public void deposit(double amount) {
         if (amount <= 0) throw new IllegalArgumentException("Deposit amount must be positive");
         balance += amount;
     }
 
-    // 9. Input validation: ensure withdrawal amount is positive and not greater than balance.
-    // 10. Error handling: throws IllegalArgumentException for invalid withdrawals or insufficient funds.
+    //input validation(only positive amounts and sufficient funds for withdrawals)
+    //error handling(IllegalArgumentException for invalid withdrawals)
     public void withdraw(double amount) {
         if (amount <= 0) throw new IllegalArgumentException("Withdraw amount must be positive");
         if (amount > balance) throw new IllegalArgumentException("Insufficient funds");

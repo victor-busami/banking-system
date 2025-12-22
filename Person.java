@@ -1,28 +1,17 @@
 import java.util.Objects;
 
-/**
- * Abstract Person class demonstrating abstraction and encapsulation.
- * Contains a concrete subclass Customer in the same file to keep total files to four.
- *
- * Clear concept mapping (this file):
- * 1. Data types & variables: `id` (int), `name` (String), `pin` in `Customer` (int).
- * 2. Methods: constructor, getters/setters, abstract `getRole`, overridden `toString`.
- * 3. Classes: `Person` (abstract) and `Customer` (concrete class).
- * 4. Encapsulation: private fields with public accessors (`getId`, `getName`, etc.).
- * 5. Inheritance: `Customer` extends `Person`.
- * 6. Polymorphism: `Customer` overrides `getRole()` and `toString()` (runtime polymorphism).
- * 7. Abstraction: `Person` is abstract and declares abstract `getRole()` which subclasses implement.
- */
 public abstract class Person {
+    //encapsulation(use of private fields)
+    //data types & variables(id, name)
     private int id;
-    private String name; // String data type
+    private String name; 
 
     public Person(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    // Encapsulated getters/setters
+    //encapsulated getters/setters
     public int getId() {
         return id;
     }
@@ -39,7 +28,7 @@ public abstract class Person {
         this.name = name;
     }
 
-    // Abstraction: subclasses must define role
+    //abstraction(abstract method to get role)
     public abstract String getRole();
 
     @Override
@@ -48,11 +37,12 @@ public abstract class Person {
     }
 }
 
-/**
- * Customer extends Person to demonstrate inheritance and polymorphism.
- */
+//customer extends person to demonstrate inheritance and polymorphism.
+
 class Customer extends Person {
-    private int pin; // Encapsulated PIN (simple auth)
+    //data types & variables(pin)
+    //encapsulation(use of private field)
+    private int pin; 
 
     public Customer(int id, String name, int pin) {
         super(id, name);
@@ -72,7 +62,7 @@ class Customer extends Person {
         return "Customer";
     }
 
-    // Polymorphism: override toString
+    //polymorphism(overrides toString method)
     @Override
     public String toString() {
         return String.format("Customer{id=%d, name='%s'}", getId(), getName());

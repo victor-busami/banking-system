@@ -1,19 +1,8 @@
 import java.util.Scanner;
 
-/**
- * Minimalistic command-line Bank ATM application (MVP).
- * Demonstrates Java OOP principles and uses SQLite via DBHelper.
- *
- * Clear concept mapping (this file):
- * 1. Data types & variables: `scanner` (Scanner), `db` (DBHelper), primitives used for IDs, amounts.
- * 2. Methods: `main`, menu handlers (`handleCreateAccount`, `handleLogin`, etc.), input helpers `readInt`/`readDouble`.
- * 4. Encapsulation: uses public APIs of `Account` and `DBHelper` rather than accessing internals.
- * 8. Database Support: interacts with `DBHelper` to persist and read data (createCustomer, createAccount, updateAccountBalance).
- * 9. Input validation: checks for empty names, non-negative deposits, PIN validation, and repeated parsing loops in `readInt`/`readDouble`.
- * 10. Error handling: catches `NumberFormatException` in input methods and `IllegalArgumentException` around `deposit`/`withdraw` operations.
- */
+
 public class BankApp {
-    // 1. Data types & variables: `scanner` for CLI input, `db` for DB operations.
+    //data types & variables(scanner, db)
     private static final Scanner scanner = new Scanner(System.in);
     private static final DBHelper db = new DBHelper();
 
@@ -48,18 +37,18 @@ public class BankApp {
         System.out.println("3) Exit");
     }
 
-    // Create customer and an initial account
+   
     private static void handleCreateAccount() {
         System.out.println("-- Create Account --");
         System.out.print("Enter customer name: ");
         String name = scanner.nextLine().trim();
-        // 9. Input validation: check for empty name
+        //input validation(name not empty)
         if (name.isEmpty()) {
             System.out.println("Name cannot be empty.");
             return;
         }
 
-        // 9. Input validation: PIN read via `readInt` (parsing loop handles invalid input)
+        //input validation(pin should be numeric)
         int pin = readInt("Set a numeric PIN (4 digits recommended): ");
         if (pin < 0) {
             System.out.println("Invalid PIN.");
@@ -70,7 +59,7 @@ public class BankApp {
         String type = scanner.nextLine().trim();
         if (type.isEmpty()) type = "checking";
 
-        // 9. Input validation: initial deposit must be non-negative
+        //input validation(initial deposit should be non-negative)
         double initial = readDouble("Initial deposit (>=0): ");
         if (initial < 0) {
             System.out.println("Initial deposit must be non-negative.");
@@ -90,7 +79,7 @@ public class BankApp {
         System.out.printf("Account created successfully. Account ID: %d\n", accountId);
     }
 
-    // Login by customer name + PIN
+    
     private static void handleLogin() {
         System.out.println("-- Login --");
         System.out.print("Enter customer name: ");
@@ -112,7 +101,7 @@ public class BankApp {
         accountSession(account);
     }
 
-    // Simple account session menu
+    
     private static void accountSession(Account account) {
         boolean active = true;
         while (active) {
@@ -130,7 +119,7 @@ public class BankApp {
                 case "b":
                     double dep = readDouble("Amount to deposit: ");
                     try {
-                        // 9. Input validation & 10. Error handling: Account.deposit validates amount and may throw
+                        //input validation and error handling(account.deposit validates amount and may throw IllegalArgumentException)
                         account.deposit(dep);
                         boolean ok = db.updateAccountBalance(account.getId(), account.getBalance());
                         if (ok) System.out.println("Deposit successful.");
@@ -142,7 +131,7 @@ public class BankApp {
                 case "c":
                     double w = readDouble("Amount to withdraw: ");
                     try {
-                        // 9. Input validation & 10. Error handling: Account.withdraw validates amount and may throw
+                        //input validation and error handling(account.withdraw validates amount and may throw IllegalArgumentException)
                         account.withdraw(w);
                         boolean ok = db.updateAccountBalance(account.getId(), account.getBalance());
                         if (ok) System.out.println("Withdrawal successful.");
@@ -161,9 +150,8 @@ public class BankApp {
         }
     }
 
-    // Admin listing removed in minimalist version
-
-    // Utility methods for safe input
+   
+    //methods
     private static int readInt(String prompt) {
         while (true) {
             System.out.print(prompt);
