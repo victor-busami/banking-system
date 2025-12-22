@@ -26,4 +26,4 @@ Files of interest
 - Source: [Account.java](Account.java)
 - Source: [DBHelper.java](DBHelper.java)
 - Source (main): [BankApp.java](BankApp.java)
-- GUI entry: [BankGUI.java](BankGUI.java)
+
