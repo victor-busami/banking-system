@@ -1,5 +1,3 @@
-import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -34,9 +32,6 @@ public class BankApp {
                     handleLogin();
                     break;
                 case 3:
-                    handleListAccounts();
-                    break;
-                case 4:
                     System.out.println("Goodbye.");
                     running = false;
                     break;
@@ -50,8 +45,7 @@ public class BankApp {
         System.out.println();
         System.out.println("1) Create customer & account");
         System.out.println("2) Login to account");
-        System.out.println("3) List all accounts (admin)");
-        System.out.println("4) Exit");
+        System.out.println("3) Exit");
     }
 
     // Create customer and an initial account
@@ -167,13 +161,7 @@ public class BankApp {
         }
     }
 
-    // Admin listing
-    private static void handleListAccounts() {
-        System.out.println("-- All Accounts --");
-        List<Account> accounts = db.listAccounts();
-        if (accounts.isEmpty()) System.out.println("No accounts found.");
-        for (Account a : accounts) System.out.println(a);
-    }
+    // Admin listing removed in minimalist version
 
     // Utility methods for safe input
     private static int readInt(String prompt) {

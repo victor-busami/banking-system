@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
+
 
 /**
  * Minimal Swing GUI for the Bank ATM MVP.
@@ -26,8 +26,7 @@ public class BankGUI extends JFrame {
     private final JTextField depositAmount = new JTextField(8);
     private final JTextField withdrawAmount = new JTextField(8);
 
-    // List tab
-    private final JTextArea listArea = new JTextArea(15, 40);
+    // (no admin/list tab in minimalist GUI)
 
     public BankGUI() {
         super("Minimal Bank ATM - GUI");
@@ -37,7 +36,6 @@ public class BankGUI extends JFrame {
         JTabbedPane tabs = new JTabbedPane();
         tabs.addTab("Create", buildCreatePanel());
         tabs.addTab("Login", buildLoginPanel());
-        tabs.addTab("List", buildListPanel());
 
         add(tabs, BorderLayout.CENTER);
         pack();
@@ -111,16 +109,6 @@ public class BankGUI extends JFrame {
         return p;
     }
 
-    private JPanel buildListPanel() {
-        JPanel p = new JPanel(new BorderLayout());
-        listArea.setEditable(false);
-        p.add(new JScrollPane(listArea), BorderLayout.CENTER);
-        JButton refresh = new JButton("Refresh");
-        refresh.addActionListener(e -> refreshList());
-        p.add(refresh, BorderLayout.SOUTH);
-        return p;
-    }
-
     // Create account action
     private void onCreateAccount() {
         String name = createName.getText().trim();
@@ -154,6 +142,8 @@ public class BankGUI extends JFrame {
         if (acc == null) { JOptionPane.showMessageDialog(this, "Authentication failed or no account found"); return; }
         currentAccount = acc;
         updateLoggedAccountDisplay();
+        // Minimal GUI: show balance popup after login
+        JOptionPane.showMessageDialog(this, String.format("Account #%d balance: %.2f", currentAccount.getId(), currentAccount.getBalance()));
     }
 
     private void updateLoggedAccountDisplay() {
@@ -192,10 +182,7 @@ public class BankGUI extends JFrame {
     }
 
     private void refreshList() {
-        List<Account> accounts = db.listAccounts();
-        StringBuilder sb = new StringBuilder();
-        for (Account a : accounts) sb.append(a).append('\n');
-        listArea.setText(sb.toString());
+        // removed in minimalist GUI
     }
 
     public static void main(String[] args) {

@@ -38,7 +38,8 @@ java -cp ".;sqlite-jdbc.jar" BankGUI
 What happens
 
 - The app will create a SQLite database file named `bank.db` in the same folder.
-- Use the CLI menu to create customers/accounts, login, deposit, withdraw, and list accounts.
+- Use the CLI or GUI to create customers/accounts, login, view balance, deposit, and withdraw.
+- Note: the admin "list all accounts" view has been removed in this minimalist version.
 
 Notes about modes
 
