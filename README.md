@@ -12,18 +12,12 @@ Compile all Java sources from the project folder:
 javac -cp ".;sqlite-jdbc.jar" *.java
 ```
 
-Run the application — two modes available (CLI and GUI):
+Run the application
 
 - CLI mode (console):
 
 ```bat
 java -cp ".;sqlite-jdbc.jar" BankApp
-```
-
-- GUI mode (Swing):
-
-```bat
-java -cp ".;sqlite-jdbc.jar" BankGUI
 ```
 
 Files of interest
