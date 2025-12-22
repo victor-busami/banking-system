@@ -1,3 +1,4 @@
+//class
 public class Account {
     // data types & variables(id, customerId, type, balance)
     // encapsulation(use of private fields)

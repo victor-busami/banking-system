@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-
+//class
 public class BankApp {
     //data types & variables(scanner, db)
     private static final Scanner scanner = new Scanner(System.in);

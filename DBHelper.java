@@ -2,6 +2,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//database support
+
 public class DBHelper {
     //variable(db_url)
     //encapsulation(keeping DB connection details private)
