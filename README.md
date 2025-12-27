@@ -1,4 +1,4 @@
-# Minimal Bank ATM — Run Instructions
+# Bank ATM — Run Instructions
 
 Prerequisites
 
@@ -17,7 +17,7 @@ Run the application
 - CLI mode (console):
 
 ```bat
-java -cp ".;sqlite-jdbc.jar" BankApp
+java --enable-native-access=ALL-UNNAMED -cp ".;sqlite-jdbc.jar" BankApp
 ```
 
 Files of interest
