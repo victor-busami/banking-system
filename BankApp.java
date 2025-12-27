@@ -7,7 +7,7 @@ public class BankApp {
     private static final DBHelper db = new DBHelper();
 
     public static void main(String[] args) {
-        System.out.println("=== Minimal Bank ATM (MVP) ===");
+        System.out.println("=== Bank ATM ===");
 
         boolean running = true;
         while (running) {
