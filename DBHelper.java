@@ -151,7 +151,7 @@ public class DBHelper {
         return false;
     }
 
-    // List all accounts (small MVP so no pagination)
+    // List all accounts 
     public List<Account> listAccounts() {
         //method(returns a list of Account objects from the DB)
         List<Account> list = new ArrayList<>();
